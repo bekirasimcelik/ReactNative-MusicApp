@@ -1,37 +1,36 @@
-import React, {useState} from 'react';
-import {SafeAreaView, FlatList, Text, View, Button, Switch} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {SafeAreaView, Text, View, Button} from 'react-native';
 
-const data = [
-  {id: 0, name: 'cafe.exe', isFavorite: true},
-  {id: 1, name: 'KafaKafe.exe', isFavorite: false},
-  {id: 2, name: 'BugG', isFavorite: false},
-  {id: 3, name: 'Rock n Code', isFavorite: true},
-  {id: 4, name: 'do(drink)', isFavorite: false},
-  {id: 5, name: 'esc', isFavorite: false},
-];
+const App = () => {
+  const [helloFlag, setHelloFlag] = useState(true);
 
-function App() {
-  const [cafeList, setCafeList] = useState(data);
-  const [showOnlyFavorites, setShowOnlyFavorites] = useState(false);
-
-  function onFavoritesChanges(isFavoriteSelected) {
-    setShowOnlyFavorites(isFavoriteSelected);
-    isFavoriteSelected
-      ? setCafeList(cafeList.filter(cafe => cafe.isFavorite))
-      : setCafeList(data);
-  }
+  const updateFlag = () => {
+    setHelloFlag(!helloFlag);
+  };
 
   return (
     <SafeAreaView>
-      <View style={{margin: 10}} />
-      <Text>Show Only Favourites</Text>
-      <Switch value={showOnlyFavorites} onValueChange={onFavoritesChanges} />
-      <FlatList
-        data={cafeList}
-        renderItem={({item}) => <Text style={{fontSize: 25}}>{item.name}</Text>}
-      />
+      <Text>Hello Lifecycle</Text>
+      <Button title="Up!" onPress={updateFlag} />
+      {helloFlag && <Hello />}
     </SafeAreaView>
   );
-}
+};
+
+const Hello = () => {
+  useEffect(() => {
+    console.log('Hello');
+
+    return () => {
+      console.log('Goodbye');
+    };
+  }, []);
+
+  return (
+    <View style={{backgroundColor: 'aqua', padding: 10}}>
+      <Text>I'm Hello Component</Text>
+    </View>
+  );
+};
 
 export default App;
